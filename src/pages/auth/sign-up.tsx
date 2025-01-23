@@ -113,9 +113,10 @@ export function SignUp() {
                             Finalizar Cadastro
                         </Button>
                         <p className="px-6 text-center text-sm leading-relaxed text-muted-foreground">
-                            Ao continuar, você concorda com nossos
+                            Ao continuar, você concorda com nossos&nbsp;
+                            <br />
                             <a href="" className="underline underline-offset-4">
-                                &nbsp; termos de serviço
+                                termos de serviço
                             </a>
                             &nbsp; e &nbsp;
                             <a href="" className="underline underline-offset-4">
