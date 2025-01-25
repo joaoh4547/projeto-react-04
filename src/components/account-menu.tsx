@@ -13,17 +13,19 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
+import { Skeleton } from "./ui/skeleton";
 
 export function AccountMenu() {
-    const { data: profile } = useQuery({
+    const { data: profile, isLoading: isProfileLoading } = useQuery({
         queryFn: getProfile,
         queryKey: ["profile"],
     });
 
-    const { data: managedRestaurant } = useQuery({
-        queryFn: getManagedRestaurant,
-        queryKey: ["managed-restaurant"],
-    });
+    const { data: managedRestaurant, isLoading: isRestaurantLoading } =
+        useQuery({
+            queryFn: getManagedRestaurant,
+            queryKey: ["managed-restaurant"],
+        });
 
     return (
         <DropdownMenu>
@@ -32,16 +34,30 @@ export function AccountMenu() {
                     variant="outline"
                     className="flex select-none items-center gap-2"
                 >
-                    {managedRestaurant?.name}
+                    {isRestaurantLoading ? (
+                        <Skeleton className="h-4 w-40" />
+                    ) : (
+                        managedRestaurant?.name
+                    )}
+
                     <ChevronDown />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel className="flex flex-col">
-                    <span>{profile?.name}</span>
-                    <span className="text-xs font-normal text-muted-foreground">
-                        {profile?.email}
-                    </span>
+                    {isProfileLoading ? (
+                        <div className="space-y-1.5">
+                            <Skeleton className="h-4 w-48" />
+                            <Skeleton className="h-3 w-40" />
+                        </div>
+                    ) : (
+                        <>
+                            <span>{profile?.name}</span>
+                            <span className="text-xs font-normal text-muted-foreground">
+                                {profile?.email}
+                            </span>
+                        </>
+                    )}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
