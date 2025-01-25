@@ -1,8 +1,10 @@
 import {
+    CartesianGrid,
     Line,
     LineChart,
-    ResponsiveContainer, XAxis,
-    YAxis
+    ResponsiveContainer,
+    XAxis,
+    YAxis,
 } from "recharts";
 import colors from "tailwindcss/colors";
 
@@ -74,6 +76,10 @@ export function RevenueChart() {
                             tickFormatter={(value: number) => {
                                 return `${value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`;
                             }}
+                        />
+                        <CartesianGrid
+                            vertical={false}
+                            className="stroke-gray-200 dark:stroke-muted"
                         />
                         <Line
                             type="linear"
