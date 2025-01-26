@@ -20,10 +20,14 @@ interface GetOrdersData {
     };
 }
 
-export async function getOrders() {
+interface GetOrderInput {
+    pageIndex?: number | null;
+}
+
+export async function getOrders({ pageIndex }: GetOrderInput) {
     const response = await api.get<GetOrdersData>("/orders", {
         params: {
-            pageIndex: 0,
+            pageIndex,
         },
     });
     return response.data;

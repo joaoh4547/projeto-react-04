@@ -10,18 +10,18 @@ interface OrderStatusProps {
 }
 
 const orderStatusMap: Record<Status, { color: string; text: string }> = {
-    pending: { color: "slate", text: "Pendente" },
-    canceled: { color: "rose", text: "Cancelado" },
-    processing: { color: "amber", text: "Em preparo" },
-    delivering: { color: "amber", text: "Em entrega" },
-    delivered: { color: "emerald", text: "Entregue" },
+    pending: { color: "bg-slate-400", text: "Pendente" },
+    canceled: { color: "bg-rose-400", text: "Cancelado" },
+    processing: { color: "bg-amber-400", text: "Em preparo" },
+    delivering: { color: "bg-amber-400", text: "Em entrega" },
+    delivered: { color: "bg-emerald-400", text: "Entregue" },
 };
 
 export function OrderStatus({ status }: OrderStatusProps) {
     return (
         <div className="flex items-center gap-2">
             <span
-                className={`h-2 w-2 rounded-full bg-${orderStatusMap[status].color}-400`}
+                className={`h-2 w-2 rounded-full ${orderStatusMap[status].color}`}
             ></span>
             <span className="font-medium text-muted-foreground">
                 {orderStatusMap[status].text}
