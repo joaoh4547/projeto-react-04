@@ -1,8 +1,11 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
 import { ArrowRight, Search, X } from "lucide-react";
 import { useState } from "react";
 
+import { cancelOrder } from "@/api/cancel-order";
+import { GetOrdersData } from "@/api/get-orders";
 import { OrderStatus } from "@/components/order-status";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -27,6 +30,37 @@ interface OrderTableRowProps {
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
     const [isDetailsOpen, setDetailsOpen] = useState(false);
+
+    const allowCancelStatus = ["processing", "pending"];
+
+    const cancelDisabled = !allowCancelStatus.includes(order.status);
+
+    const queryClient = useQueryClient();
+    const { mutateAsync: cancelOrderFn } = useMutation({
+        mutationFn: cancelOrder,
+        async onSuccess(_, { orderId }) {
+            const ordersListCache = queryClient.getQueriesData<GetOrdersData>({
+                queryKey: ["orders"],
+            });
+            ordersListCache.forEach(([key, data]) => {
+                if (data) {
+                    queryClient.setQueryData<GetOrdersData>(key, {
+                        ...data,
+                        orders: data.orders.map((order) => {
+                            if (order.orderId === orderId) {
+                                return { ...order, status: "canceled" };
+                            }
+                            return order;
+                        }),
+                    });
+                }
+            });
+        },
+    });
+
+    async function handleCancelProfile() {
+        await cancelOrderFn({ orderId: order.orderId });
+    }
 
     return (
         <TableRow>
@@ -70,7 +104,12 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                 </Button>
             </TableCell>
             <TableCell>
-                <Button variant="ghost" size="xs">
+                <Button
+                    disabled={cancelDisabled}
+                    onClick={handleCancelProfile}
+                    variant="ghost"
+                    size="xs"
+                >
                     <X className="mr-2 h-3 w-3" />
                     Cancelar
                 </Button>
