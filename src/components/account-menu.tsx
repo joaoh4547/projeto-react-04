@@ -1,9 +1,11 @@
 import { DialogTrigger } from "@radix-ui/react-dialog";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Building, ChevronDown, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 import { getManagedRestaurant } from "@/api/get-managed-restaurant";
 import { getProfile } from "@/api/get-profile";
+import { signOut } from "@/api/sign-out";
 
 import { StoreProfileDialog } from "./store-profile-dialog";
 import { Button } from "./ui/button";
@@ -19,6 +21,8 @@ import {
 import { Skeleton } from "./ui/skeleton";
 
 export function AccountMenu() {
+    const navigate = useNavigate();
+
     const { data: profile, isLoading: isProfileLoading } = useQuery({
         queryFn: getProfile,
         queryKey: ["profile"],
@@ -30,6 +34,16 @@ export function AccountMenu() {
             queryFn: getManagedRestaurant,
             queryKey: ["managed-restaurant"],
             staleTime: Infinity,
+        });
+
+    const { mutateAsync: signOutUser, isPending: isSignOutPending } =
+        useMutation({
+            mutationFn: signOut,
+            onSuccess() {
+                navigate("/sign-in", {
+                    replace: true,
+                });
+            },
         });
 
     return (
@@ -72,9 +86,18 @@ export function AccountMenu() {
                             <span>Perfil da loja</span>
                         </DropdownMenuItem>
                     </DialogTrigger>
-                    <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Sair</span>
+                    <DropdownMenuItem
+                        asChild
+                        className="text-rose-500 dark:text-rose-400"
+                        disabled={isSignOutPending}
+                    >
+                        <button
+                            className="w-full"
+                            onClick={() => signOutUser()}
+                        >
+                            <LogOut className="mr-2 h-4 w-4" />
+                            <span>Sair</span>
+                        </button>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
