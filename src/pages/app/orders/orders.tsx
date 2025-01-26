@@ -24,9 +24,29 @@ export function Orders() {
         .transform((page) => page - 1)
         .parse(searchParams.get("page") ?? "1");
 
+    const orderId = searchParams.get("orderId");
+    const customerName = searchParams.get("customerName");
+
+    const status = z
+        .enum([
+            "all",
+            "pending",
+            "canceled",
+            "processing",
+            "delivering",
+            "delivered",
+        ])
+        .parse(searchParams.get("status") || "all");
+
     const { data: result } = useQuery({
-        queryFn: () => getOrders({ pageIndex }),
-        queryKey: ["orders", pageIndex],
+        queryFn: () =>
+            getOrders({
+                pageIndex,
+                customerName,
+                orderId,
+                status: status === "all" ? null : status,
+            }),
+        queryKey: ["orders", pageIndex, orderId, customerName, status],
     });
 
     function handlePaginate(pageIndex: number) {
