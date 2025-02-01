@@ -20,7 +20,7 @@ export interface GetOrdersData {
     };
 }
 
-interface GetOrderInput {
+export interface GetOrderInput {
     pageIndex?: number | null;
     orderId?: string | null;
     customerName?: string | null;
