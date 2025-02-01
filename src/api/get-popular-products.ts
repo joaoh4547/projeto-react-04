@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
 
-interface GetPopularProducts {
+export interface GetPopularProducts {
     product: string;
     amount: number;
 }

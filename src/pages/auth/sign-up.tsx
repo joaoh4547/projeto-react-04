@@ -27,6 +27,7 @@ export function SignUp() {
         register,
         handleSubmit,
         formState: { isSubmitting },
+        reset,
     } = useForm<SignUpForm>({
         resolver: zodResolver(signUpForm),
     });
@@ -51,6 +52,7 @@ export function SignUp() {
                     },
                 },
             });
+            reset();
         } catch {
             toast.error("Erro ao cadastrar restaurante");
         }
