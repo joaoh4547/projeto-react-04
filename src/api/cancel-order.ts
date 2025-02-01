@@ -1,6 +1,6 @@
 import { api } from "@/lib/axios";
 
-interface CancelOrderInput {
+export interface CancelOrderInput {
     orderId: string;
 }
 
