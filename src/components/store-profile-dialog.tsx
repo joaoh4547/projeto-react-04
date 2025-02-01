@@ -89,7 +89,6 @@ export function StoreProfileDialog() {
     });
 
     async function handleSaveProfile(data: StoreProfileSchema) {
-        console.log(data);
         try {
             await updateProfileFn({
                 description: data.description,
