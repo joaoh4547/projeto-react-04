@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:test":"vite --port 5078 --mode test",
+    "dev:test": "vite --port 5078 --mode test",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest --dir  src/"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -44,6 +44,7 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.50.1",
     "@rocketseat/eslint-config": "^2.2.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
