@@ -13,6 +13,6 @@ export const getManagedRestaurantMock = http.get<
         description: "Pizza Shop Description",
         id: "123456",
         managerId: "1234567890",
-        name: "Pizza shop",
+        name: "Pizza Shop 01",
     });
 });
