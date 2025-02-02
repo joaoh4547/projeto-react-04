@@ -9,9 +9,8 @@ test("sign up successfully", async ({ page }) => {
     await page.getByRole("button", { name: "Finalizar Cadastro" }).click();
 
     const toast = page.getByText("Restaurante cadastrado com sucesso");
-    await toast.waitFor({state: "visible"});
-    
-    expect(toast).toBeVisible();
+
+    await expect(toast).toBeVisible();
 });
 
 test("sign up with erro", async ({ page }) => {
@@ -23,9 +22,8 @@ test("sign up with erro", async ({ page }) => {
     await page.getByRole("button", { name: "Finalizar Cadastro" }).click();
 
     const toast = page.getByText("Erro ao cadastrar restaurante");
-    await toast.waitFor({state: "visible"});
     
-    expect(toast).toBeVisible();
+    await expect(toast).toBeVisible();
 });
 
 test("navigate to new login page", async ({ page }) => {

@@ -9,9 +9,8 @@ test("sign in successfully", async ({ page }) => {
     const toast = page.getByText(
         "Enviamos um link de autenticação para seu email",
     );
-    await toast.waitFor({ timeout: 10000 });
-    // await page.waitForTimeout(2000);
-    expect(toast).toBeVisible();
+
+    await expect(toast).toBeVisible({timeout: 6000});
 });
 
 test("sign in with wrong credencial", async ({ page }) => {
@@ -21,8 +20,7 @@ test("sign in with wrong credencial", async ({ page }) => {
         .fill("wrong@example.com");
     await page.getByRole("button", { name: "Acessar Painel" }).click();
     const toast = page.getByText("Erro ao enviar email de autenticação");
-    await toast.waitFor({ timeout: 10000 });
-    expect(toast).toBeVisible();
+    await expect(toast).toBeVisible({timeout: 6000});
 });
 
 test("navigate to restaurant page", async ({ page }) => {
